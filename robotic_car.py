@@ -41,98 +41,88 @@ def clear_screen():
         _ = system('clear')
 
 def forward():
+    log_warning("forwarding a car")
     GPIO.output(in1,GPIO.HIGH)
     GPIO.output(in3,GPIO.HIGH)
     GPIO.output(in2,GPIO.LOW)
     GPIO.output(in4,GPIO.LOW)
 
 def backward():
+    log_warning("backwarding a car")
     GPIO.output(in1,GPIO.LOW)
     GPIO.output(in3,GPIO.LOW)
     GPIO.output(in2,GPIO.HIGH)
     GPIO.output(in4,GPIO.HIGH)
 
 def stop():
+    log_warning("your car is stopped")
     GPIO.output(in1,GPIO.LOW)
     GPIO.output(in3,GPIO.LOW)
     GPIO.output(in2,GPIO.LOW)
     GPIO.output(in4,GPIO.LOW)
 
 def change_duty_cycle(duty_cycle):
+    log_warning("changing speed to {}".format(duty_cycle))
     p_a.ChangeDutyCycle(duty_cycle)
     p_b.ChangeDutyCycle(duty_cycle)
 
-    
-clear_screen()
-en_a = 22
-in1 = 16
-in2 = 18
-in3 = 11
-in4 = 13
-en_b = 15
-temp1=1
-min_duty_cycle = 25
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(en_a,GPIO.OUT)
-GPIO.setup(in1,GPIO.OUT)
-GPIO.setup(in2,GPIO.OUT)
-GPIO.setup(in3,GPIO.OUT)
-GPIO.setup(in4,GPIO.OUT)
-GPIO.setup(en_b,GPIO.OUT)
-stop()
-p_a=GPIO.PWM(en_a,1000)
-p_b=GPIO.PWM(en_b,1000)
-p_a.start(25)
-p_b.start(25)
-
-log_error("\n")
-log_error("The default speed & direction of motor is LOW & Forward.....")
-log_error("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
-log_error("\n")
-
-while(1):
-
-    x=input()
-    
-    if x=='r':
-        print("run")
-        if(temp1==1):
+if __name__ == "__main__":
+    clear_screen()
+    en_a = 22
+    in1 = 16
+    in2 = 18
+    in3 = 11
+    in4 = 13
+    en_b = 15
+    temp1=1
+    min_duty_cycle = 25
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(en_a,GPIO.OUT)
+    GPIO.setup(in1,GPIO.OUT)
+    GPIO.setup(in2,GPIO.OUT)
+    GPIO.setup(in3,GPIO.OUT)
+    GPIO.setup(in4,GPIO.OUT)
+    GPIO.setup(en_b,GPIO.OUT)
+    stop()
+    p_a=GPIO.PWM(en_a,1000)
+    p_b=GPIO.PWM(en_b,1000)
+    p_a.start(25)
+    p_b.start(25)
+    log_warning("The default speed & direction of motor is LOW & Forward.....")
+    log_warning("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
+    while(1):
+        x=input()
+        if x=='r':
+            print("run")
+            if(temp1==1):
+                forward()
+                x='z'
+            else:
+                backward()
+                x='z'
+        elif x=='s':
+            stop()
+            x='z'
+        elif x=='f':
             forward()
-            print("forward")
+            temp1=1
             x='z'
-        else:
+        elif x=='b':
             backward()
-            print("backward")
+            temp1=0
             x='z'
-    elif x=='s':
-        stop()
-        print("stop")
-        x='z'
-    elif x=='f':
-        print("forward")
-        forward()
-        temp1=1
-        x='z'
-    elif x=='b':
-        print("backward")
-        backward()
-        temp1=0
-        x='z'
-    elif x=='l':
-        print("low")
-        change_duty_cycle(25)
-        x='z'
-    elif x=='m':
-        print("medium")
-        change_duty_cycle(50)
-        x='z'
-    elif x=='h':
-        print("high")
-        change_duty_cycle(75)
-        x='z'
-    elif x=='e':
-        GPIO.cleanup()
-        break
-    else:
-        print("<<<  wrong data  >>>")
-        print("please enter the defined data to continue.....")
+        elif x=='l':
+            change_duty_cycle(25)
+            x='z'
+        elif x=='m':
+            change_duty_cycle(50)
+            x='z'
+        elif x=='h':
+            change_duty_cycle(75)
+            x='z'
+        elif x=='e':
+            GPIO.cleanup()
+            break
+        else:
+            log_error("<<<  ERROR : YOUR LICENCE MAY CANCEL   >>>")
+            log_warning("please enter the defined data to continue.....")
