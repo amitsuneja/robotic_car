@@ -1,11 +1,12 @@
 import RPi.GPIO as GPIO          
-from os import system, name
+from os import system, name 
 from time import sleep
+from car_logger import log_warning, log_critical, log_error, clear_logs
 
 
-####################################################################################################
+#######################################################################################################
 # CABLING DETAILS
-###################################################################################################
+#######################################################################################################
 # Motor driver have 3 main pins : 12V, grd and 5v.
 # 12V to cell +ve
 # grd to cell -ve
@@ -22,8 +23,7 @@ from time import sleep
 # ENA and ENB only required if you want to control speed .
 # Cell supply should be more then 12V ( 2Cell*9V)
 # Powerbank is required to supply power to raspberry pi
-##################################################################################################
-
+#######################################################################################################
 GPIO.setmode(GPIO.BOARD)
 en_a = 22
 in1 = 16
@@ -33,7 +33,7 @@ in4 = 13
 en_b = 15
 temp1=1
 min_duty_cycle = 25
-log_file = "/tmp/robot.log"
+#clear_logs()
 
 def clear_screen():
     if name == 'nt':      # for windows
@@ -76,14 +76,14 @@ p_b=GPIO.PWM(en_b,1000)
 p_a.start(25)
 p_b.start(25)
 
-print("\n")
-print("The default speed & direction of motor is LOW & Forward.....")
-print("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
-print("\n")    
+log_error("\n")
+log_error("The default speed & direction of motor is LOW & Forward.....")
+log_error("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
+log_error("\n")
 
 while(1):
 
-    x=raw_input()
+    x=input()
     
     if x=='r':
         print("run")
