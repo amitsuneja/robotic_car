@@ -62,8 +62,6 @@ def stop():
 def change_duty_cycle(duty_cycle):
     p_a.ChangeDutyCycle(duty_cycle)
     p_b.ChangeDutyCycle(duty_cycle)
-
-
     
 clear_screen()
 GPIO.setup(en_a,GPIO.OUT)
@@ -77,9 +75,6 @@ p_a=GPIO.PWM(en_a,1000)
 p_b=GPIO.PWM(en_b,1000)
 p_a.start(25)
 p_b.start(25)
-
-
-
 
 print("\n")
 print("The default speed & direction of motor is LOW & Forward.....")
@@ -100,43 +95,35 @@ while(1):
             backward()
             print("backward")
             x='z'
-
     elif x=='s':
         stop()
         print("stop")
         x='z'
-
     elif x=='f':
         print("forward")
         forward()
         temp1=1
         x='z'
-
     elif x=='b':
         print("backward")
         backward()
         temp1=0
         x='z'
-
     elif x=='l':
         print("low")
         change_duty_cycle(25)
         x='z'
-
     elif x=='m':
         print("medium")
         change_duty_cycle(50)
         x='z'
-
     elif x=='h':
         print("high")
         change_duty_cycle(75)
         x='z'
-    
     elif x=='e':
         GPIO.cleanup()
         break
-    
     else:
         print("<<<  wrong data  >>>")
         print("please enter the defined data to continue.....")
