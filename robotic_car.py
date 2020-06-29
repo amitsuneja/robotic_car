@@ -33,7 +33,6 @@ in4 = 13
 en_b = 15
 temp1=1
 min_duty_cycle = 25
-#clear_logs()
 
 def clear_screen():
     if name == 'nt':      # for windows
@@ -62,8 +61,18 @@ def stop():
 def change_duty_cycle(duty_cycle):
     p_a.ChangeDutyCycle(duty_cycle)
     p_b.ChangeDutyCycle(duty_cycle)
+
     
 clear_screen()
+en_a = 22
+in1 = 16
+in2 = 18
+in3 = 11
+in4 = 13
+en_b = 15
+temp1=1
+min_duty_cycle = 25
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(en_a,GPIO.OUT)
 GPIO.setup(in1,GPIO.OUT)
 GPIO.setup(in2,GPIO.OUT)
