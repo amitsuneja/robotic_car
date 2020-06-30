@@ -92,5 +92,26 @@ def licence_cancel():
     log_error("<<<  ERROR : YOUR LICENCE MAY CANCEL   >>>")
 
 def print_menu():
-    log_warning("S-hand brakes  s-stop f-forward b-backward e-exit")
+    log_warning("\nS-hand brakes\ns-stop\nf-forward\nb-backward\ne-exit\nl-left_turn\nr-right_turn")
+
+def turn_car(en_a,in1,in2,in3,in4,en_b,p_a,p_b,direction):
+    current_speed = check_speedometer()
+    if (current_speed > min_speed):
+       change_speed(p_a,p_b,min_speed)
+    if (direction == "left"):
+       GPIO.output(in1,GPIO.LOW)
+       GPIO.output(in3,GPIO.HIGH)
+       GPIO.output(in2,GPIO.HIGH)
+       GPIO.output(in4,GPIO.HIGH)
+       log_warning("car is turning left")
+    else:
+       GPIO.output(in1,GPIO.HIGH)
+       GPIO.output(in3,GPIO.LOW)
+       GPIO.output(in2,GPIO.HIGH)
+       GPIO.output(in4,GPIO.HIGH)
+       log_warning("car is turning right")
+
+
+  
+    
 
