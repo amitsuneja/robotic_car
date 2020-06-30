@@ -40,9 +40,9 @@ def forward(en_a,in1,in2,in3,in4,en_b,p_a,p_b,expected_speed=50):
     GPIO.output(in3,GPIO.HIGH)
     GPIO.output(in2,GPIO.LOW)
     GPIO.output(in4,GPIO.LOW)
-    change_speed(expected_speed)
+    change_speed(p_a,p_b,expected_speed)
 
-def change_speed(expected_speed):
+def change_speed(p_a,p_b,expected_speed):
     current_speed = check_speedometer()
     if (expected_speed > max_speed):
         expected_speed = max_speed
@@ -55,26 +55,31 @@ def change_speed(expected_speed):
             current_speed = current_speed - 1
             change_duty_cycle(current_speed,p_a,p_b)
 
-def backward(en_a,in1,in2,in3,in4,en_b,expected_speed=25):
+def backward(en_a,in1,in2,in3,in4,en_b,p_a,p_b,expected_speed=25):
     immediate_stop_car(en_a,in1,in2,in3,in4,en_b)
     log_warning("backwarding a car")
     GPIO.output(in1,GPIO.LOW)
     GPIO.output(in3,GPIO.LOW)
     GPIO.output(in2,GPIO.HIGH)
     GPIO.output(in4,GPIO.HIGH)
-    change_speed(expected_speed)
+    current_speed = check_speedometer()
+    if (current_speed > expected_speed):
+        change_speed(p_a,p_b,expected_speed)
+    if (current_speed < expected_speed):
+        change_speed(p_a,p_b,expected_speed)
 
 def immediate_stop_car(en_a,in1,in2,in3,in4,en_b):
-    log_warning("your car is stopped")
+    log_warning("your car is stopped immediately")
     GPIO.output(in1,GPIO.LOW)
     GPIO.output(in3,GPIO.LOW)
     GPIO.output(in2,GPIO.LOW)
     GPIO.output(in4,GPIO.LOW)
     update_speedometer(0)
 
-def procedural_stop_car(en_a,in1,in2,in3,in4,en_b):
+def procedural_stop_car(en_a,in1,in2,in3,in4,en_b,p_a,p_b):
     expected_speed = 0
-    change_speed(expected_speed)
+    change_speed(p_a,p_b,expected_speed)
+    log_warning("your car is stopped procedurly")
 
 def change_duty_cycle(speed,p_a,p_b):
     log_warning("changing speed to {}".format(speed))
@@ -85,4 +90,7 @@ def change_duty_cycle(speed,p_a,p_b):
 
 def licence_cancel():
     log_error("<<<  ERROR : YOUR LICENCE MAY CANCEL   >>>")
-    log_warning("please enter the defined data to continue.....")
+
+def print_menu():
+    log_warning("S-hand brakes  s-stop f-forward b-backward e-exit")
+
