@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 from clearscr import clear_screen
 from car_logger import log_warning, log_critical, log_error, clear_logs
-from car_moves import forward,  backward, immediate_stop_car, change_duty_cycle, licence_cancel, init_car
+from car_moves import forward,  backward, immediate_stop_car, change_duty_cycle, licence_cancel, init_car, procedural_stop_car
 
 if __name__ == "__main__":
     clear_screen()
@@ -14,7 +14,7 @@ if __name__ == "__main__":
         if x=='r':
             print("run")
             if(temp_var==1):
-                forward(en_a,in1,in2,in3,in4,en_b)
+                forward(en_a,in1,in2,in3,in4,en_b,p_a,p_b)
                 x='z'
             else:
                 backward(en_a,in1,in2,in3,in4,en_b)
@@ -23,7 +23,7 @@ if __name__ == "__main__":
             immediate_stop_car(en_a,in1,in2,in3,in4,en_b)
             x='z'
         elif x=='f':
-            forward(en_a,in1,in2,in3,in4,en_b)
+            forward(en_a,in1,in2,in3,in4,en_b,p_a,p_b)
             temp_var=1
             x='z'
         elif x=='b':

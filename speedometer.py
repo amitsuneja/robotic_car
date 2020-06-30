@@ -6,4 +6,4 @@ def check_speedometer():
     with open('speedometer.log','r') as reader_handler:
         for line in reader_handler:
             speed = line
-    return speed
+    return int(speed)
