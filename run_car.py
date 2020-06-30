@@ -5,7 +5,7 @@ from car_moves import forward,  backward, immediate_stop_car, change_duty_cycle,
 
 if __name__ == "__main__":
     clear_screen()
-    temp1=1
+    temp_var=1
     en_a, in1, in2, in3, in4, en_b, min_speed, max_speed, mid_speed, p_a, p_b = init_car()
     log_warning("The default speed & direction of motor is LOW & Forward.....")
     log_warning("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
@@ -13,7 +13,7 @@ if __name__ == "__main__":
         x=input()
         if x=='r':
             print("run")
-            if(temp1==1):
+            if(temp_var==1):
                 forward(en_a,in1,in2,in3,in4,en_b)
                 x='z'
             else:
@@ -24,11 +24,11 @@ if __name__ == "__main__":
             x='z'
         elif x=='f':
             forward(en_a,in1,in2,in3,in4,en_b)
-            temp1=1
+            temp_var=1
             x='z'
         elif x=='b':
             backward(en_a,in1,in2,in3,in4,en_b)
-            temp1=0
+            temp_var=0
             x='z'
         elif x=='l':
             change_duty_cycle(min_speed,p_a,p_b)
