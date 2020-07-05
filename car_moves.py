@@ -1,6 +1,8 @@
 import RPi.GPIO as GPIO          
 from car_logger import log_warning, log_critical, log_error, clear_logs
 from speedometer import update_speedometer, check_speedometer
+from ultrasonic import check_distance
+
 
 min_speed = 25
 max_speed = 75
@@ -55,7 +57,8 @@ def change_speed(p_a,p_b,expected_speed):
             current_speed = current_speed - 1
             change_duty_cycle(current_speed,p_a,p_b)
 
-def backward(en_a,in1,in2,in3,in4,en_b,p_a,p_b,expected_speed=25):
+def backward(en_a,in1,in2,in3,in4,en_b,p_a,p_b,expected_speed=10):
+    temp1=0
     immediate_stop_car(en_a,in1,in2,in3,in4,en_b)
     log_warning("backwarding a car")
     GPIO.output(in1,GPIO.LOW)
@@ -67,6 +70,15 @@ def backward(en_a,in1,in2,in3,in4,en_b,p_a,p_b,expected_speed=25):
         change_speed(p_a,p_b,expected_speed)
     if (current_speed < expected_speed):
         change_speed(p_a,p_b,expected_speed)
+    while temp1  == 0:
+        print("checking back distance from car")
+        distance = check_distance()
+        print("distance =",distance)
+        if distance < 10:
+            temp1=1 
+            log_warning("CAREFUL - i see object close to back side")
+            immediate_stop_car(en_a,in1,in2,in3,in4,en_b)
+        
 
 def immediate_stop_car(en_a,in1,in2,in3,in4,en_b):
     log_warning("your car is stopped immediately")
@@ -86,13 +98,9 @@ def change_duty_cycle(speed,p_a,p_b):
     p_a.ChangeDutyCycle(speed)
     p_b.ChangeDutyCycle(speed)
     update_speedometer(speed) 
- 
 
 def licence_cancel():
     log_error("<<<  ERROR : YOUR LICENCE MAY CANCEL   >>>")
-
-def print_menu():
-    log_warning("\nS-hand brakes\ns-stop\nf-forward\nb-backward\ne-exit\nl-left_turn\nr-right_turn")
 
 def turn_car(en_a,in1,in2,in3,in4,en_b,p_a,p_b,direction):
     current_speed = check_speedometer()

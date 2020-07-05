@@ -1,7 +1,13 @@
 import RPi.GPIO as GPIO
 from clearscr import clear_screen
 from car_logger import log_warning, log_critical, log_error, clear_logs
-from car_moves import forward,  backward, immediate_stop_car, change_duty_cycle, licence_cancel, init_car, procedural_stop_car, print_menu, turn_car
+from car_moves import forward,  backward, immediate_stop_car, change_duty_cycle, licence_cancel, init_car, procedural_stop_car, turn_car
+from ultrasonic import check_distance
+
+def print_menu():
+    log_warning("\nS-hand brakes\ns-stop\nf-forward\nb-backward\ne-exit\nl-left_turn\nr-right_turn\nd-check back distance")
+
+
 
 if __name__ == "__main__":
     clear_screen()
@@ -33,6 +39,10 @@ if __name__ == "__main__":
             turn_car(en_a,in1,in2,in3,in4,en_b,p_a,p_b,direction="right")
             x='z'
             print_menu()
+        elif x=='d':
+            distance=check_distance()
+            print(distance)
+            x='z'
         elif x=='e':
             GPIO.cleanup()
             break

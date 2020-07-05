@@ -90,7 +90,7 @@ time.sleep(0.5)
 # GPIO cleanup function. This will also prevent
 # the user seeing lots of unnecessary error
 # messages.
-def calculate_distance_back():
+def check_distance():
     try:
         back_distance_list = list() # create empty list
         for i in range(3):          # run loop 3 times (1=0,1,2)
