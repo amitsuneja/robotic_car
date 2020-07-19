@@ -1,0 +1,60 @@
+<div id="map" style="width:100%;height:400px;"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
+<script type="text/javascript">
+var locations=[
+['19.0018014','72.914170300'],['18.4915595','73.886065199'],['17.5272371','75.957780299'],['19.0787678','75.752507899'],['19.9971895','73.916395800'],['19.0150482','72.855971599']
+];
+
+var map;
+var NewLatLng=[];
+var markers=[];
+var marker ;
+function initialize()
+{
+var latlng = new google.maps.LatLng(21.16536,72.79387);
+var myOptions = {
+zoom: 5,
+center: latlng,
+mapTypeId: google.maps.MapTypeId.ROADMAP
+};
+map = new google.maps.Map(document.getElementById("map"), myOptions);
+marker = new google.maps.Marker
+(
+{
+position: new google.maps.LatLng(21.1673643, 72.7851802),
+map: map,
+title: 'Click me'
+}
+
+);
+markers.push(marker);
+$.each(locations, function (i, item) {
+NewLatLng.push(new google.maps.LatLng(item[0], item[1]));
+});
+
+var infowindow = new google.maps.InfoWindow({
+               content:"388-A , Road no 22, Jubilee Hills, Hyderabad Telangana, INDIA-500033"
+            });
+
+google.maps.event.addListener(marker, 'click', function ()
+{
+infowindow.open(map, marker);
+setTimeout(function(){infowindow.close();}, '5000');
+});
+$.each(NewLatLng, function (i, item) {
+setTimeout(function(){
+marker.setPosition(item);
+
+markers.push(marker);
+
+}, i*1000);
+
+});
+}
+
+
+window.onload = initialize;
+
+</script>
