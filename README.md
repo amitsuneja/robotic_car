@@ -80,9 +80,9 @@ V+ -> not in use/ not connected
 
 VCC - COnnected to 5V Motor driver. RED Cable
 
-SDA - Connected to GPIO_PIN_35 - White color cable
+SDA - Connected to GPIO_PIN_3 - White color cable (This cant be changed with any other GPIO PIN)
 
-SCL - Connected to GPIO_PIN_37 - GREY COLOR Cable
+SCL - Connected to GPIO_PIN_5 - GREEN COLOR Cable (This cant be changed with any other GPIO PIN)
 
 OE - Not connected
 
